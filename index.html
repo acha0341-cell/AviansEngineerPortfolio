@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Site</title>
 <style>
-:root{--bg:#fff;--fg:#1a1d21;--muted:#5b6470;--card:#f3f5f8;--line:#dde2e8;--accent:#0b6bcb;--on-accent:#fff;--font:system-ui,sans-serif;--width:760px}
+:root{--bg:#fff;--fg:#1a1d21;--muted:#5b6470;--card:#f3f5f8;--line:#dde2e8;--accent:#0b6bcb;--on-accent:#fff;--font:system-ui,-apple-system,Segoe UI,Roboto,sans-serif;--width:760px}
 @media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#0f1114;--fg:#e8eaed;--muted:#9aa3ae;--card:#181b20;--line:#2a2f36;--accent:var(--accent-dark);--on-accent:#0f1114}}
 :root[data-theme="dark"]{--bg:#0f1114;--fg:#e8eaed;--muted:#9aa3ae;--card:#181b20;--line:#2a2f36;--accent:var(--accent-dark);--on-accent:#0f1114}
 *{box-sizing:border-box}
@@ -40,38 +40,43 @@ footer{margin-top:48px;color:var(--muted);font-size:.9rem}
 <script src="config.js"></script>
 <script>
 (function(){
-  var app=document.getElementById('app');
-  if(!window.SITE){app.innerHTML='<h1>config.js not found</h1><p>Put <code>config.js</code> in the same folder as <code>index.html</code> (same repo folder on GitHub), then reload.</p>';return}
-  var S=window.SITE,T=S.theme||{},r=document.documentElement;
+  var app=document.getElementById('app'),r=document.documentElement;
+  if(!window.SITE){app.innerHTML='<h1>config.js not found</h1><p>Put <code>config.js</code> in the same folder as <code>index.html</code>, then reload.</p>';return}
   function h(tag,cls,html){var e=document.createElement(tag);if(cls)e.className=cls;if(html!=null)e.innerHTML=html;return e}
-  document.title=S.title;
-  if(T.accent)r.style.setProperty('--accent',T.accent);
-  r.style.setProperty('--accent-dark',T.accentDark||T.accent||'#6cb0ff');
-  if(T.font)r.style.setProperty('--font',T.font);
-  if(T.width)r.style.setProperty('--width',T.width);
-  if(T.mode==='light'||T.mode==='dark')r.setAttribute('data-theme',T.mode);
 
-  app.appendChild(h('h1',null,S.title));
-  app.appendChild(h('p','lead',S.tagline||''));
-  var btns=h('div','btns');
-  (S.buttons||[]).forEach(function(b){
-    var a=h('a','btn'+(b.primary?' primary':''),b.label);a.href=b.url;
-    if(/^https?:/.test(b.url)){a.target='_blank';a.rel='noopener'}
-    btns.appendChild(a)});
-  app.appendChild(btns);
+  function render(S){
+    var T=S.theme||{};
+    app.innerHTML='';
+    document.title=S.title||'Site';
+    r.style.setProperty('--accent',T.accent||'#0b6bcb');
+    r.style.setProperty('--accent-dark',T.accentDark||T.accent||'#6cb0ff');
+    if(T.font)r.style.setProperty('--font',T.font);else r.style.removeProperty('--font');
+    if(T.width)r.style.setProperty('--width',T.width);else r.style.removeProperty('--width');
+    if(T.mode==='light'||T.mode==='dark')r.setAttribute('data-theme',T.mode);else r.removeAttribute('data-theme');
 
-  var nav=h('nav');nav.id='tabs';app.appendChild(nav);
-  (S.tabs||[]).forEach(function(t){
-    var a=h('a',null,t.title);a.href='#'+t.id;nav.appendChild(a);
-    var sec=h('section','tab');sec.id=t.id;
-    if(t.type==='embed'){
-      if(t.intro)sec.appendChild(h('p',null,t.intro));
-      var f=document.createElement('iframe');f.className='doc';f.src=t.url;f.title=t.title;
-      f.style.height=t.height||'80vh';f.loading='lazy';f.allowFullscreen=true;sec.appendChild(f);
-    }else sec.innerHTML=t.content||'';
-    app.appendChild(sec)});
-
-  app.appendChild(h('footer',null,S.footer||''));
+    app.appendChild(h('h1',null,S.title||''));
+    app.appendChild(h('p','lead',S.tagline||''));
+    if((S.buttons||[]).length){
+      var btns=h('div','btns');
+      S.buttons.forEach(function(b){
+        var a=h('a','btn'+(b.primary?' primary':''),b.label);a.href=b.url;
+        if(/^https?:/.test(b.url)){a.target='_blank';a.rel='noopener'}
+        btns.appendChild(a)});
+      app.appendChild(btns);
+    }
+    var nav=h('nav');nav.id='tabs';app.appendChild(nav);
+    (S.tabs||[]).forEach(function(t){
+      var a=h('a',null,t.title);a.href='#'+t.id;nav.appendChild(a);
+      var sec=h('section','tab');sec.id=t.id;
+      if(t.type==='embed'){
+        if(t.intro)sec.appendChild(h('p',null,t.intro));
+        if(t.url){var f=document.createElement('iframe');f.className='doc';f.src=t.url;f.title=t.title;
+          f.style.height=t.height||'80vh';f.loading='lazy';f.allowFullscreen=true;sec.appendChild(f)}
+      }else sec.innerHTML=t.content||'';
+      app.appendChild(sec)});
+    app.appendChild(h('footer',null,S.footer||''));
+    show();
+  }
 
   function show(){
     var el=document.getElementById(location.hash.slice(1));
@@ -81,7 +86,13 @@ footer{margin-top:48px;color:var(--muted);font-size:.9rem}
     document.querySelectorAll('#tabs a').forEach(function(a){a.classList.toggle('on',a.getAttribute('href')==='#'+tab.id)});
     if(el&&el!==tab)el.scrollIntoView();
   }
-  addEventListener('hashchange',show);show();
+  addEventListener('hashchange',show);
+  window.renderSite=render;
+  render(window.SITE);
+
+  if(/[?&]edit(=|&|$)/.test(location.search)){
+    var s=document.createElement('script');s.src='admin.js';document.body.appendChild(s);
+  }
 })();
 </script>
 </body>
