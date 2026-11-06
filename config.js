@@ -24,10 +24,9 @@ window.SITE = {
   "tabs": [
     {
       "id": "new-tab",
-      "title": "Test ",
-      "type": "embed",
-      "content": "<h2>New tab</h2><p>Write something here.</p>",
-      "intro": "Here is test for my website"
+      "title": "This is a test tab",
+      "type": "html",
+      "content": "<h2>New tab</h2><p>Write something here.</p>"
     }
   ]
 };
