@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Site</title>
+<style>
+:root{--bg:#fff;--fg:#1a1d21;--muted:#5b6470;--card:#f3f5f8;--line:#dde2e8;--accent:#0b6bcb;--on-accent:#fff;--font:system-ui,sans-serif;--width:760px}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#0f1114;--fg:#e8eaed;--muted:#9aa3ae;--card:#181b20;--line:#2a2f36;--accent:var(--accent-dark);--on-accent:#0f1114}}
+:root[data-theme="dark"]{--bg:#0f1114;--fg:#e8eaed;--muted:#9aa3ae;--card:#181b20;--line:#2a2f36;--accent:var(--accent-dark);--on-accent:#0f1114}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--fg);font:16px/1.6 var(--font)}
+main{max-width:var(--width);margin:0 auto;padding:48px 20px 64px}
+h1{font-size:2.2rem;line-height:1.15;margin:0 0 8px}
+h2{font-size:1.25rem;margin:36px 0 12px;padding-top:8px;border-top:1px solid var(--line)}
+.lead{color:var(--muted);font-size:1.1rem;margin:0 0 20px}
+a{color:var(--accent)}
+.btns{display:flex;gap:10px;flex-wrap:wrap}
+.btn{display:inline-block;padding:9px 16px;border-radius:8px;border:1px solid var(--accent);text-decoration:none;font-weight:600}
+.btn.primary{background:var(--accent);color:var(--on-accent)}
+nav{display:flex;gap:6px;flex-wrap:wrap;margin:28px 0 0;border-bottom:1px solid var(--line)}
+nav a{padding:8px 14px;text-decoration:none;color:var(--muted);border-bottom:2px solid transparent;font-weight:600}
+nav a.on{color:var(--accent);border-bottom-color:var(--accent)}
+.tab{display:none}.tab.on{display:block}
+.doc{width:100%;border:1px solid var(--line);border-radius:10px;background:#fff}
+.flow{display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin:8px 0}
+.flow span{background:var(--card);border:1px solid var(--line);border-radius:8px;padding:6px 12px;font-size:.92rem}
+.flow i{color:var(--muted);font-style:normal}
+.table-wrap{overflow-x:auto}
+table{border-collapse:collapse;width:100%}
+th,td{text-align:left;padding:8px 12px;border-bottom:1px solid var(--line)}
+th{color:var(--muted);font-weight:600;font-size:.9rem}
+.media{background:var(--card);border:1px dashed var(--line);border-radius:10px;padding:40px 16px;text-align:center;color:var(--muted)}
+img{max-width:100%;height:auto}
+footer{margin-top:48px;color:var(--muted);font-size:.9rem}
+</style>
+</head>
+<body>
+<main id="app"></main>
+<script src="config.js"></script>
+<script>
+(function(){
+  var app=document.getElementById('app');
+  if(!window.SITE){app.innerHTML='<h1>config.js not found</h1><p>Put <code>config.js</code> in the same folder as <code>index.html</code> (same repo folder on GitHub), then reload.</p>';return}
+  var S=window.SITE,T=S.theme||{},r=document.documentElement;
+  function h(tag,cls,html){var e=document.createElement(tag);if(cls)e.className=cls;if(html!=null)e.innerHTML=html;return e}
+  document.title=S.title;
+  if(T.accent)r.style.setProperty('--accent',T.accent);
+  r.style.setProperty('--accent-dark',T.accentDark||T.accent||'#6cb0ff');
+  if(T.font)r.style.setProperty('--font',T.font);
+  if(T.width)r.style.setProperty('--width',T.width);
+  if(T.mode==='light'||T.mode==='dark')r.setAttribute('data-theme',T.mode);
+
+  app.appendChild(h('h1',null,S.title));
+  app.appendChild(h('p','lead',S.tagline||''));
+  var btns=h('div','btns');
+  (S.buttons||[]).forEach(function(b){
+    var a=h('a','btn'+(b.primary?' primary':''),b.label);a.href=b.url;
+    if(/^https?:/.test(b.url)){a.target='_blank';a.rel='noopener'}
+    btns.appendChild(a)});
+  app.appendChild(btns);
+
+  var nav=h('nav');nav.id='tabs';app.appendChild(nav);
+  (S.tabs||[]).forEach(function(t){
+    var a=h('a',null,t.title);a.href='#'+t.id;nav.appendChild(a);
+    var sec=h('section','tab');sec.id=t.id;
+    if(t.type==='embed'){
+      if(t.intro)sec.appendChild(h('p',null,t.intro));
+      var f=document.createElement('iframe');f.className='doc';f.src=t.url;f.title=t.title;
+      f.style.height=t.height||'80vh';f.loading='lazy';f.allowFullscreen=true;sec.appendChild(f);
+    }else sec.innerHTML=t.content||'';
+    app.appendChild(sec)});
+
+  app.appendChild(h('footer',null,S.footer||''));
+
+  function show(){
+    var el=document.getElementById(location.hash.slice(1));
+    var tab=(el&&el.closest('.tab'))||document.querySelector('.tab');
+    if(!tab)return;
+    document.querySelectorAll('.tab').forEach(function(x){x.classList.toggle('on',x===tab)});
+    document.querySelectorAll('#tabs a').forEach(function(a){a.classList.toggle('on',a.getAttribute('href')==='#'+tab.id)});
+    if(el&&el!==tab)el.scrollIntoView();
+  }
+  addEventListener('hashchange',show);show();
+})();
+</script>
+</body>
+</html>
