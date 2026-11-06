@@ -21,5 +21,13 @@ window.SITE = {
       "url": "#findings"
     }
   ],
-  "tabs": []
+  "tabs": [
+    {
+      "id": "new-tab",
+      "title": "Test ",
+      "type": "embed",
+      "content": "<h2>New tab</h2><p>Write something here.</p>",
+      "intro": "Here is test for my website"
+    }
+  ]
 };
