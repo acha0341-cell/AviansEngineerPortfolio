@@ -12,12 +12,7 @@ window.SITE = {
   },
   "buttons": [
     {
-      "label": "View code on GitHub",
-      "url": "https://github.com/YOUR-USERNAME/YOUR-REPO",
-      "primary": true
-    },
-    {
-      "label": "Findings",
+      "label": "YouTube Channel",
       "url": "#findings"
     }
   ],
