@@ -21,7 +21,7 @@ window.SITE = {
       "id": "new-tab",
       "title": "About me",
       "type": "html",
-      "content": "<h2>About me</h2>\n<div style=\"display:flex;gap:20px;align-items:center;flex-wrap:wrap\">\n  <img src=\"profile.png\" alt=\"Photo of Avian\" style=\"width:160px;height:160px;border-radius:50%;object-fit:cover;object-position:center top\">\n  <div style=\"flex:1;min-width:240px\">\n    <p>Hi, I'm Avian, an aerospace engineering student at [university] with a minor in AI for engineering. I like building things that fly and figuring out how to make them smarter.</p>\n    <p>I'm currently looking for [internships / research opportunities / project collaborators]. You can reach me at [email].</p>\n    <p><a class=\"btn primary\" href=\"https://www.linkedin.com/in/avian-chand-7717a52b8/\" target=\"_blank\" rel=\"noopener\">Connect on LinkedIn</a></p>\n  </div>\n</div>",
+      "content": "<h2>About me</h2>\n<div style=\"display:flex;gap:20px;align-items:center;flex-wrap:wrap\">\n  <img src=\"pfp.png\" alt=\"Photo of Avian\" style=\"width:160px;height:160px;border-radius:50%;object-fit:cover;object-position:center top\">\n  <div style=\"flex:1;min-width:240px\">\n    <p>Hi, I'm Avian, an aerospace engineering student at [university] with a minor in AI for engineering. I like building things that fly and figuring out how to make them smarter.</p>\n    <p>I'm currently looking for [internships / research opportunities / project collaborators]. You can reach me at [email].</p>\n    <p><a class=\"btn primary\" href=\"https://www.linkedin.com/in/avian-chand-7717a52b8/\" target=\"_blank\" rel=\"noopener\">Connect on LinkedIn</a></p>\n  </div>\n</div>",
       "url": ""
     },
     {
