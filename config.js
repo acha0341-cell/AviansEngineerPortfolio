@@ -20,8 +20,9 @@ window.SITE = {
     {
       "id": "new-tab",
       "title": "Glove based - Drone Controller",
-      "type": "embed",
-      "content": "<h2>New tab</h2><p>Write something here.</p>"
+      "type": "html",
+      "content": "<h2>New tab</h2><p>Write something here.</p>",
+      "url": ""
     },
     {
       "id": "new-tab-2",
