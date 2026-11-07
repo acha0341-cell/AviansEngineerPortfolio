@@ -18,17 +18,23 @@ window.SITE = {
   ],
   "tabs": [
     {
+      "id": "new-tab",
+      "title": "About me",
+      "type": "html",
+      "content": "",
+      "url": ""
+    },
+    {
       "id": "new-tab-2",
       "title": "Miniature Wind Tunnel",
       "type": "embed",
       "content": "<h2>New tab</h2><p>Write something here.</p>"
     },
     {
-      "id": "new-tab",
-      "title": "About me",
+      "id": "new-tab-3",
+      "title": "Glove Gased - Gesture Controlled Drone",
       "type": "html",
-      "content": "",
-      "url": ""
+      "content": "<h2>New tab</h2><p>Write something here.</p>"
     }
   ]
 };
