@@ -5,8 +5,8 @@ window.SITE = {
   "footer": "Built by Avian Chand (student engineer)",
   "theme": {
     "mode": "light",
-    "accent": "#0b6bcb",
-    "accentDark": "#0077ff",
+    "accent": "#7a3333",
+    "accentDark": "#c8e1fe",
     "font": "system-ui, -apple-system, Segoe UI, Roboto, sans-serif",
     "width": "760px"
   },
@@ -24,7 +24,7 @@ window.SITE = {
   "tabs": [
     {
       "id": "new-tab",
-      "title": "This is a test tab",
+      "title": "Glove based - Drone Controller",
       "type": "embed",
       "content": "<h2>New tab</h2><p>Write something here.</p>"
     }
