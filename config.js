@@ -13,7 +13,7 @@ window.SITE = {
   "buttons": [
     {
       "label": "YouTube Channel",
-      "url": "#findings"
+      "url": "https://www.youtube.com/@FormlessFlight"
     }
   ],
   "tabs": [
